@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CGMCI-Risk</title>
+  <link rel="stylesheet" href="./static/base.css"/>
+  <link rel="stylesheet" href="./static/common.css"/>
+  <link rel="stylesheet" href="./static/index.css"/>
+  <style>
+    body{
+      padding: 20px 0;
+    }
+    .box{
+      min-width: 500px;
+      max-width: 600px;
+      /*background-color: rgba(0,0,255,.1);*/
+      /*height: 100vh;*/
+      margin: auto;
+      /*height: 100vh;*/
+      /*display: grid;*/
+      /*align-items: center;*/
+    }
+    .el-radio{
+      margin: 0;
+    }
+    /*=============== BREAKPOINTS ===============*/
+    /* For medium devices */
+    @media screen and (min-width: 500px) {
+      .box {
+        padding: 20px 0;
+        justify-content: center;
+        /*color: red;*/
+        box-shadow: 0 0 5px 5px lightgrey;
+
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="box">
+    <h2 style="text-align: center">CGMCI-Risk</h2>
+    <hr>
+    <br/>
+    <el-form  >
+      <el-form-item label="Age (years old)" label-width="40%">
+        <el-input-number v-model="item1"  :min="60" :max="150" label="描述文字" ></el-input-number>
+      </el-form-item>
+
+      <el-form-item label="Educational level" label-width="40%">
+        <el-select v-model="item2" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options2"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Sex" label-width="40%">
+        <el-select v-model="item3" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options3"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Exercise" label-width="40%">
+        <el-select v-model="item4" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options4"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Garden work" label-width="40%">
+        <el-select v-model="item5" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options5"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="TV watching or radio listening" label-width="40%">
+        <el-select v-model="item6" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options6"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="IADL" label-width="40%">
+        <el-select v-model="item7" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options7"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Hearing" label-width="40%">
+        <el-select v-model="item8" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options8"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Masticatory function" label-width="40%">
+        <el-select v-model="item9" placeholder="请选择"  >
+          <el-option
+                  v-for="item in options9"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <div style="text-align:center;color:red;font-size:20px;font-weight:700;"  >
+        <span>3-year risk = {{Risk}}</span>
+      </div>
+      <div style="text-align:center;color:red;font-size:20px;font-weight:700;"  >
+        <el-button type="primary" round @click="Calculate">计算</el-button>
+      </div>
+    </el-form>
+  </div>
+</div>
+<script src="./static/vue.js"></script>
+<script src="./static/index.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        item1: 0,
+        item2: 0,
+        item3: 0,
+        item4: 0,
+        item5: 0,
+        item6: 0,
+        item7: 0,
+        item8: 0,
+        item9: 0,
+        Risk:0,
+        //item10: '',
+        //item11: '',
+        //item12: '',
+        //item13: '',
+        //item1_c: '',
+        //item2_c: '',
+        //item3_c: '',
+        //item4_c: '',
+        //item5_c: '',
+        //item6_c: '',
+        //item7_c: '',
+        //item8_c: '',
+        //item9_c: '',
+        //item10_c: '',
+        //item11_c: '',
+        //item12_c: '',
+        //item13_c: '',
+        //options1: [
+        //    { label: '0', value: 1000 },
+        //    { label: '1-6', value: 1000 },
+        //    { label: '≥7', value: 1000 },
+        //],
+        options2: [
+          { label: 'Illiteracy', value: 25.84193 },
+          { label: 'Primary school', value: 12.92096 },
+          { label: 'Middle school or above', value: 0 },
+        ],
+        options3: [
+          { label: 'Male', value: 0 },
+          { label: 'Female', value: 8.769365 },
+        ],
+        options4: [
+          { label: 'Yes', value: 0 },
+          { label: 'No', value: 6.292808 },
+        ],
+        options5: [
+          { label: 'Usually', value: 0 },
+          { label: 'Sometimes', value: 9.643149 },
+          { label: 'Never', value: 19.286299 },
+        ],
+        options6: [
+          { label: 'Usually', value: 0 },
+          { label: 'Sometimes', value: 4.250002 },
+          { label: 'Never', value: 8.500005 },
+        ],
+        options7: [
+          { label: 'Intact', value: 0 },
+          { label: 'Impaired', value: 11.78163 },
+        ],
+        options8: [
+          { label: 'Intact', value: 0 },
+          { label: 'Impaired', value: 10.3652 },
+        ],
+        options9: [
+          { label: 'Intact', value: 0 },
+          { label: 'Impaired', value: 12.65261 },
+        ],
+        points:0,
+        item1_t:0,
+      }
+    },
+    computed: {},
+    created() {
+    },
+    mounted() {
+      //this.handleChange()
+      //this.item1 = ''
+      //this.item2 = ''
+      //this.item3 = ''
+      //this.item4 = ''
+      //this.item5 = ''
+      //this.item6 = ''
+      //this.item7 = ''
+      //this.item8 = ''
+      //this.item9 = ''
+      //this.item10 = ''
+      //this.item11 = ''
+
+      //console.log(this.item1)
+      //console.log(this.item2)
+      //console.log(this.item3)
+      //console.log(this.item4)
+      //console.log(this.item5)
+      //console.log(this.item6)
+      //console.log(this.item7)
+      //console.log(this.item8)
+      //console.log(this.item9)
+      //console.log(this.item10)
+      //console.log(this.item11)
+      //console.log(this.item12)
+    },
+    beforeDestroy() {
+    },
+    methods: {
+      Calculate() {
+        let _this = this
+
+        let item1 = this.item1
+        let item2 = this.item2
+        let item3 = this.item3
+        let item4 = this.item4
+        let item5 = this.item5
+        let item6 = this.item6
+        let item7 = this.item7
+        let item8 = this.item8
+        let item9 = this.item9
+
+        item1 = this.sub_ab(this.mul_ab(1.818181818 , item1) , 109.090909091)
+        this.item1_t = item1
+
+
+        console.log("item1", item1)
+        console.log("item2", item2)
+        console.log("item3", item3)
+        console.log("item4", item4)
+        console.log("item5", item5)
+        console.log("item6", item6)
+        console.log("item7", item7)
+        console.log("item8", item8)
+        console.log("item9", item9)
+
+        let points = 0
+        points = this.add_ab(points, item1)
+        points = this.add_ab(points, item2)
+        points = this.add_ab(points, item3)
+        points = this.add_ab(points, item4)
+        points = this.add_ab(points, item5)
+        points = this.add_ab(points, item6)
+        points = this.add_ab(points, item7)
+        points = this.add_ab(points, item8)
+        points = this.add_ab(points, item9)
+        if (item1 === '' || item2 === '' || item3 === '' || item4 === '' || item5 === '' || item6 === '' || item7 === '' || item8 === '' || item9 === '') {
+          //alert('请将数据填写完整！')
+          //return
+        }
+        console.log(points)
+        this.points = points
+        this.Risk = calculateRisk(points)
+
+        let F1 = item1
+        let F2 = item2
+        let F3 = item3
+        let F4 = item4
+        let F5 = item5
+        let F6 = item6
+        let F7 = item7
+        let F8 = item8
+        let F9 = item9
+        let F10 = this.Risk
+        let F11 = this.getLocalTimeNow2()
+
+        let sql = `insert into TB001(F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11) values('${F1}','${F2}','${F3}','${F4}','${F5}','${F6}','${F7}','${F8}','${F9}','${F10}','${F11}')\r\n`
+
+        // myDB.execute_sql_string(sql, (response) => {
+        //   let code = response.value
+        this.$message({
+          showClose: true,
+          message: '计算完毕！',
+          type: 'success'//error\success\warning
+        });
+        // })
+
+        function calculateRisk(points) {
+          console.log('calculateRisk', points)
+          //points = parseFloat(points)
+          //console.log('calculateRisk', points)
+          points = _this.add_ab(75 , points)
+          console.log('calculateRisk',points)
+          // 定义公式中的常量
+          const a = 0.852405178;
+          const b = -4.17e-07;
+          const c = 0.000194207;
+          const d = -0.022360467;
+
+          // 使用公式计算 Risk
+          const risk = a + b * Math.pow(points, 3) + c * Math.pow(points, 2) + d * points;
+
+          // 返回计算结果
+          return risk;
+        }
+      },
+      //a/b //两数相除
+      div_ab(a, b) {
+        a = parseFloat(a)
+        b = parseFloat(b)
+        //确保精度正确
+        let res = (a / b).toFixed(10)
+        //去除小数末尾无用的0
+        res = parseFloat(res + '').toString();
+        return res
+      },
+      //a*b //两数相乘
+      mul_ab(a, b) {
+        a = parseFloat(a)
+        b = parseFloat(b)
+        //确保精度正确
+        let res = (a * b).toFixed(10)
+        //去除小数末尾无用的0
+        res = parseFloat(res + '').toString();
+        return res
+      },
+      //a-b //两数相减
+      sub_ab(a, b) {
+        a = parseFloat(a)
+        b = parseFloat(b)
+        //确保精度正确
+        let res = (a - b).toFixed(10)
+        //去除小数末尾无用的0
+        res = parseFloat(res + '').toString();
+        return res
+      },
+      //a+b
+      add_ab(a, b) {
+        a = parseFloat(a)
+        b = parseFloat(b)
+        //确保精度正确
+        let res = (a + b).toFixed(10)
+        //去除小数末尾无用的0
+        res = parseFloat(res + '').toString();
+        return res
+      },
+      num_20(num) {
+        num = parseFloat(num)
+        //确保精度正确
+        let res = num.toFixed(20)
+        //去除小数末尾无用的0
+        res = parseFloat(res + '').toString();
+        res = parseFloat(res)
+        return res
+      },
+      //2021-01 - 01 00: 00: 00.523
+      getLocalTimeNow2() {
+        let now = new Date();
+        let year = now.getFullYear();
+        let month = now.getMonth() + 1;
+        let day = now.getDate();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let second = now.getSeconds();
+        let milliseconds = now.getMilliseconds(); // 获取毫秒数
+
+        // 将月份、日期、小时、分钟和秒数转换为两位数字
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        hour = hour < 10 ? '0' + hour : hour;
+        minute = minute < 10 ? '0' + minute : minute;
+        second = second < 10 ? '0' + second : second;
+
+        // 将毫秒数转换为三位数字
+        if (milliseconds < 10) {
+          milliseconds = '00' + milliseconds;
+        } else if (milliseconds < 100) {
+          milliseconds = '0' + milliseconds;
+        }
+
+        // 组合日期、时间和毫秒
+        let datetime = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second + '.' + milliseconds;
+        return datetime;
+      },
+    }
+  })
+
+</script>
+</body>
+</html>
